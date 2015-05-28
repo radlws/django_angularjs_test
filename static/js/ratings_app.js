@@ -10,8 +10,10 @@ ratingsApp.controller("RatingsController", function($scope) {
     //$scope.ratings=["Rad: 1", ];
     //$scope.ratings=[];
     $scope.add=function(){
-        $scope.ratings.push($scope.new_rating);
+        if ($scope.new_rating != undefined) {
+            $scope.ratings.push($scope.new_rating);
+        }
         $scope.new_rating="";
-        console.log($scope.ratings)
+        //console.log($scope.ratings)
     }
 });
