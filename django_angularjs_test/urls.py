@@ -8,5 +8,6 @@ urlpatterns = patterns('',
     url(r'^interpolate/$', 'django_angularjs_test.views.test_interpolation', name='test_interpolation'),
     url(r'^controller/$', 'django_angularjs_test.views.test_controller', name='test_controller'),
     url(r'^events/', include('events.urls')),
+    url(r'^ratings/', include('ratings.urls')),
     url(r'^admin/', include(admin.site.urls)),
 ) #+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

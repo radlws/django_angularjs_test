@@ -7,3 +7,4 @@ settings_local.py
 ../../.idea/
 */.idea/*
 .DS_Store
+*.pyc

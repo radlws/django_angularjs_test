@@ -1,0 +1,100 @@
+{% load staticfiles %}
+<html ng-app="ratingsApp">
+<head>
+    <title>Score Keeper Rating App</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/ratings.css' %}">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/ratings_app.js' %}"></script>
+</head>
+
+<body>
+<div class="navbar navbar-default">
+    <div class="col-md-6 col-lg-6 col-sm-6">
+    <h1 class="app-title">Rating App</h1>
+    </div>
+    <div class="col-md-6 col-lg-6 col-sm-6 text-right padding-top-15 padding-bottom-15">
+    </div>
+</div>
+
+{#Write some text in textbox:#}
+{#<input type="text" ng-model="sometext">#}
+{##}
+{#<h1 ng-show="sometext">Hello [[ sometext ]]</h1>#}
+{##}
+{#<h4>Uppercase: [[ sometext|uppercase ]]</h4>#}
+{#<h4>Lowercase: [[ sometext|lowercase ]]</h4>#}
+
+
+<div class="container stylish-well-1">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="stylish-header-div-1">Add Ratings for {% now "jS F Y" %}</div>
+        </div>
+
+        <div class="col-md-6 text-right padding-right-30">
+            {% include 'ratings/history.html' %}
+        </div>
+    </div>
+
+    <div class="stylish-well-inner">
+<div class="row">
+            <div class="col-md-12">
+                <div class="row">
+        <div class="form-group col-sm-6 col-md-6 col-lg-6"><label for="name">Name</label> <input class="form-control" maxlength="15" type="text" id="name">
+        </div>
+        <div class="form-group col-sm-6 col-md-6 col-lg-6"><label for="rating">Rating</label> <input class="form-control" type="number" min="1" max="10" id="rating"></div>
+    </div>
+            </div>
+        </div>
+        <div class="row">
+{#            {{ #each ratings }}#}
+{#            <div class="col-md-3 col-sm-4 col-xs-6 rating" id="{{_id}}">#}
+{#                <div class="well">#}
+{#                    {% comment %}#}
+{#                    {{ #if name }}<strong>{{name}}:</strong>{{ /if }}<span class="rating-value"> {{rating}}</span>]#}
+{#                    {% endcomment %}#}
+{#                </div>#}
+{#            </div>#}
+{#            {{ else }}#}
+{#            <div class="col-md-12">#}
+{#                <div class="well">#}
+{#                    Nothing to show.#}
+{#                </div>#}
+{#            </div>#}
+{#            {{ /each }}#}
+
+        </div>
+
+        <div class="row row-input-buttons">
+
+                <div class="col-md-6">
+{#                    <div class="alert alert-success" role="alert">#}
+{#                        Average: <span id="day-average" data-val="{{averages.[0]}}">{{averages.[0]}}</span>,#}
+{#                        Count: <span id="day-count" data-val="{{averages.[1]}}">{{averages.[1]}}</span>,#}
+{#                        Median: <span id="day-median" data-val="{{averages.[2]}}">{{averages.[2]}}</span>#}
+{#                    </div>#}
+                </div>
+                <div class="col-md-6 text-right">
+                    <button class="btn btn-danger delete-all btn-lg"><span class="glyphicon glyphicon-remove"></span> Clear</button>
+                    <button class="btn btn-primary save btn-lg"><span class="glyphicon glyphicon-save"></span> Save</button>
+                </div>
+
+            <div class="col-md-12">
+                <div class="ratings-status"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
