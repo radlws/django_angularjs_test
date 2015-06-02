@@ -6,14 +6,19 @@ ratingsApp.config(function($interpolateProvider) {
 });
 
 ratingsApp.controller("RatingsController", function($scope) {
-    $scope.ratings=["hi@email.com","hello@email.com", "radzhome@gmail.com"];
+    //$scope.ratings=["hi@email.com","hello@email.com", "radzhome@gmail.com"];
     //$scope.ratings=["Rad: 1", ];
-    //$scope.ratings=[];
+    $scope.ratings=[];
     $scope.add=function(){
+        var name = 'no name'
         if ($scope.new_rating != undefined) {
-            $scope.ratings.push($scope.new_rating);
+            if ($scope.new_rating_name){
+                name = $scope.new_rating_name
+            }
+            $scope.ratings.push({'value': $scope.new_rating, 'name': name});
         }
         $scope.new_rating="";
+        $scope.new_rating_name="";
         //console.log($scope.ratings)
     }
 });
