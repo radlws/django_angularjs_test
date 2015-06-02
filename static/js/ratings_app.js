@@ -66,6 +66,10 @@ ratingsApp.controller("RatingsController", function(ratingService, $scope) {
         //console.log($scope.ratings)
     };
 
+    $scope.clear=function(){
+        $scope.ratings = [];
+    };
+
     $scope.delete=function(id){
         //alert(id)
         if (id > -1) {

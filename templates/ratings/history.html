@@ -35,6 +35,9 @@
                                 </tr>
                                 </thead>
                                 <tbody>
+                                <ul>
+                                    <li ng-repeat="stat in rating_stats">[[stat.date]] [[stat.average]]</li>
+                                </ul>
 {#                                {{ #each historic_ratings }}#}
 {#                                <tr id="{{_id}}" class="historic-rating">#}
 {#                                    <td>{{formatDate time "short"}}</td>#}
