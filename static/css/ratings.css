@@ -63,3 +63,12 @@ h1.app-title{
 .padding-bottom-15{
     padding-bottom: 15px;
 }
+
+.add-btn-container{
+    margin-top: 15px;
+    text-align: right;
+}
+
+.margin-bottom-15{
+    margin-bottom: 15px;
+}
