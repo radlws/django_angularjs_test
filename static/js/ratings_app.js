@@ -5,12 +5,49 @@ ratingsApp.config(function($interpolateProvider) {
     $interpolateProvider.endSymbol(']]');
 });
 
-ratingsApp.controller("RatingsController", function($scope) {
+ratingsApp.service("ratingService", function($http, $q) {
+
+    this.getRatings = function() {
+        var deferred = $q.defer();
+        $http({
+            url: '/ratings/api/get',
+            method: 'GET'
+            })
+            .success(function(data,status,headers,config){
+                deferred.resolve(data);
+            })
+            .error(function(data,status,headers,config){
+                deferred.reject('ERROR');
+            });
+        return deferred.promise;
+
+    };
+    //this.getRatings = function(){
+		//var scope = this;
+    //
+	 //   return $http.get('/ratings/api/get').success(function(data){
+    //        return data;
+    //    });
+    //
+    //};
+});
+
+ratingsApp.controller("RatingsController", function(ratingService, $scope) {
     //$scope.ratings=["hi@email.com","hello@email.com", "radzhome@gmail.com"];
     //$scope.ratings=["Rad: 1", ];
     $scope.ratings=[];
 
-    $scope.rating_stats = ratingService.getRatings();
+    //xx = ratingService.getRatings();
+    var myPromise = ratingService.getRatings();
+    myPromise.then(function(resolve){
+        $scope.rating_stats = resolve;
+        //xx = $scope.rating_stats;
+    },
+    function(reject){
+        $scope.rating_stats = reject;
+    });
+
+    //alert ($scope.rating_stats);
 
     $scope.add=function(){
         var name = 'no name'
@@ -34,7 +71,7 @@ ratingsApp.controller("RatingsController", function($scope) {
         if (id > -1) {
             $scope.ratings.splice(id, 1);
         }
-    }
+    };
 
     //$scope.add_keypress
     $scope.add_keypress = function(keyEvent) {
@@ -44,15 +81,7 @@ ratingsApp.controller("RatingsController", function($scope) {
 
 });
 
-ratingsApp.service("ratingService", function($http, $q) {
 
-	this.getRatings = function(){
-		var scope = this;
-
-	    $http.get('ratings/api/get/').success(function(data){
-            scope.rating_stats = data;
-        });
-	};
     //this.getRatings = function() {
     //    var deferred = $q.defer();
     //    $http({
@@ -74,7 +103,7 @@ ratingsApp.service("ratingService", function($http, $q) {
     //    return deferred.promise;
     //
     //};
-})
+
 
 //ratingsApp.directive('ngEnter', function () {
 //    return function (scope, element, attrs) {
