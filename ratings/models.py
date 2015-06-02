@@ -5,7 +5,7 @@ from django.db import models
 
 class WeeklyRating(models.Model):
 
-    date = models.DateField(auto_now_add=True, unique=True)
+    date = models.DateField(unique=True)  # auto_now_add=True,
     average = models.DecimalField(max_digits=3, decimal_places=1)
     median = models.DecimalField(max_digits=3, decimal_places=1)
     count = models.IntegerField()

@@ -10,6 +10,8 @@ ratingsApp.controller("RatingsController", function($scope) {
     //$scope.ratings=["Rad: 1", ];
     $scope.ratings=[];
 
+    $scope.rating_stats = ratingService.getRatings();
+
     $scope.add=function(){
         var name = 'no name'
         //if ($scope.new_rating != undefined) {
@@ -41,6 +43,38 @@ ratingsApp.controller("RatingsController", function($scope) {
     };
 
 });
+
+ratingsApp.service("ratingService", function($http, $q) {
+
+	this.getRatings = function(){
+		var scope = this;
+
+	    $http.get('ratings/api/get/').success(function(data){
+            scope.rating_stats = data;
+        });
+	};
+    //this.getRatings = function() {
+    //    var deferred = $q.defer();
+    //    $http({
+    //        url: '',
+    //        method: 'GET'
+    //        })
+    //        //if request is successful
+    //        .success(function(data,status,headers,config){
+    //            //resolve the promise
+    //            deferred.resolve(data.main.temp);
+    //
+    //        })
+    //        //if request is not successful
+    //        .error(function(data,status,headers,config){
+    //            //reject the promise
+    //            deferred.reject('ERROR');
+    //        });
+    //    //return the promise
+    //    return deferred.promise;
+    //
+    //};
+})
 
 //ratingsApp.directive('ngEnter', function () {
 //    return function (scope, element, attrs) {
