@@ -1,17 +1,44 @@
 
 var ratingsApp = angular.module('ratingsApp', []);
-ratingsApp.config(function($interpolateProvider) {
+ratingsApp.config(function($interpolateProvider, $httpProvider) {
     $interpolateProvider.startSymbol('[[');
     $interpolateProvider.endSymbol(']]');
+
+    $httpProvider.defaults.xsrfCookieName = 'csrftoken';
+    $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
 });
+
+//ratingsApp.config(function($httpProvider) {
+//    $httpProvider.defaults.xsrfCookieName = 'csrftoken';
+//    $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
+//});
 
 ratingsApp.service("ratingService", function($http, $q) {
 
     this.getRatings = function() {
         var deferred = $q.defer();
         $http({
-            url: '/ratings/api/get',
-            method: 'GET'
+            url: '/ratings/api',
+            method: 'GET',
+            format: 'json'
+            })
+            .success(function(data,status,headers,config){
+                deferred.resolve(data);
+            })
+            .error(function(data,status,headers,config){
+                deferred.reject('ERROR');
+            });
+        return deferred.promise;
+
+    };
+
+    this.postRating = function(data){
+        var deferred = $q.defer();
+        $http({
+            url: '/ratings/api',
+            method: 'POST',
+            data: data,
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             })
             .success(function(data,status,headers,config){
                 deferred.resolve(data);
@@ -46,6 +73,9 @@ ratingsApp.controller("RatingsController", function(ratingService, $scope) {
     function(reject){
         $scope.rating_stats = reject;
     });
+
+
+    var p = ratingService.postRating("{msg:'hello word!'}");
 
     //alert ($scope.rating_stats);
 

@@ -17,7 +17,7 @@ class RatingsHomeView(TemplateView):
 ratings_home = RatingsHomeView.as_view()
 
 
-class RatingsAPIGet(View):
+class RatingsAPI(View):
 
     def get(self, request, *args, **kwargs):
         rating_stats = WeeklyRating.objects.all().values('date', 'count', 'average', 'median')
@@ -30,8 +30,9 @@ class RatingsAPIGet(View):
         #return JsonResponse(rating_stats, safe=False)
 
 
-    # def post(self, request, *args, **kwargs):
-    #     pass
-    # TODO
+    def post(self, request, *args, **kwargs):
+        print 'i have been posted'
+        msg = {"status": "success", "message": None}
+        return JsonResponse(msg, status=201)
 
-ratings_api_get = RatingsAPIGet.as_view()
+ratings_api = RatingsAPI.as_view()
