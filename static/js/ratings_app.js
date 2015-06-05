@@ -8,10 +8,6 @@ ratingsApp.config(function($interpolateProvider, $httpProvider) {
     $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
 });
 
-//ratingsApp.config(function($httpProvider) {
-//    $httpProvider.defaults.xsrfCookieName = 'csrftoken';
-//    $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
-//});
 
 ratingsApp.service("ratingService", function($http, $q) {
 
@@ -49,43 +45,36 @@ ratingsApp.service("ratingService", function($http, $q) {
         return deferred.promise;
 
     };
-    //this.getRatings = function(){
-		//var scope = this;
-    //
-	 //   return $http.get('/ratings/api/get').success(function(data){
-    //        return data;
-    //    });
-    //
-    //};
 });
 
 ratingsApp.controller("RatingsController", function(ratingService, $scope) {
-    //$scope.ratings=["hi@email.com","hello@email.com", "radzhome@gmail.com"];
-    //$scope.ratings=["Rad: 1", ];
     $scope.ratings=[];
 
-    //xx = ratingService.getRatings();
-    var myPromise = ratingService.getRatings();
-    myPromise.then(function(resolve){
-        $scope.rating_stats = resolve;
-        //xx = $scope.rating_stats;
-    },
-    function(reject){
-        $scope.rating_stats = reject;
-    });
+    var _getStatRatings = function (){
+        var getPromise = ratingService.getRatings();
+        getPromise.then(function(resolve){
+            $scope.rating_stats = resolve;
+        },
+        function(reject){
+            $scope.rating_stats = reject;
+        });
+    };
 
+    var _postStatRating = function (msg){
+        var getPromise = ratingService.postRating(msg);
+        getPromise.then(function(resolve){
+            $scope.status_msg = resolve;
+        },
+        function(reject){
+            $scope.status_msg = reject;
+        });
+    };
 
-    var p = ratingService.postRating("{msg:'hello word!'}");
-
-    //alert ($scope.rating_stats);
+    _getStatRatings();
 
     $scope.add=function(){
-        var name = 'no name'
-        //if ($scope.new_rating != undefined) {
+        var name = 'no name';
         if (typeof $scope.new_rating  === 'number') {
-            //alert(!($scope.new_rating in [undefined, null, '']))
-            //alert($scope.new_rating)
-            //alert(!($scope.new_rating in [undefined, null]))
             if ($scope.new_rating_name){
                 name = $scope.new_rating_name
             }
@@ -93,63 +82,41 @@ ratingsApp.controller("RatingsController", function(ratingService, $scope) {
         }
         $scope.new_rating="";
         $scope.new_rating_name="";
-        //console.log($scope.ratings)
+    };
+
+    $scope.save=function(){
+        var ratingCount = $scope.ratings.length;
+        if (ratingCount) {
+            var ratingSum = 0;
+            var sortedRatings = [];
+            for (var i = 0; i < ratingCount; i++) {
+                sortedRatings.push($scope.ratings[i]['value']);
+                ratingSum += $scope.ratings[i]['value'];
+            }
+            sortedRatings = sortedRatings.sort();
+            $scope.mid = sortedRatings[Math.floor(ratingCount / 2)];
+            $scope.avg = ratingSum / ratingCount;
+            $scope.count = ratingCount;
+            var msg = JSON.stringify({"median": $scope.mid, "average": $scope.avg, "count": ratingCount});
+            _postStatRating(msg);
+            _getStatRatings();
+            $scope.clear();
+        }
     };
 
     $scope.clear=function(){
         $scope.ratings = [];
     };
 
-    $scope.delete=function(id){
-        //alert(id)
+    $scope.remove=function(id){
         if (id > -1) {
             $scope.ratings.splice(id, 1);
         }
     };
 
-    //$scope.add_keypress
     $scope.add_keypress = function(keyEvent) {
       if (keyEvent.which === 13)
         $scope.add();
     };
 
 });
-
-
-    //this.getRatings = function() {
-    //    var deferred = $q.defer();
-    //    $http({
-    //        url: '',
-    //        method: 'GET'
-    //        })
-    //        //if request is successful
-    //        .success(function(data,status,headers,config){
-    //            //resolve the promise
-    //            deferred.resolve(data.main.temp);
-    //
-    //        })
-    //        //if request is not successful
-    //        .error(function(data,status,headers,config){
-    //            //reject the promise
-    //            deferred.reject('ERROR');
-    //        });
-    //    //return the promise
-    //    return deferred.promise;
-    //
-    //};
-
-
-//ratingsApp.directive('ngEnter', function () {
-//    return function (scope, element, attrs) {
-//        element.bind("keydown keypress", function (event) {
-//            if(event.which === 13) {
-//                //console.log('yes enter was pressed')
-//                scope.$apply(function (){
-//                    scope.$eval(attrs.ngEnter);
-//                });
-//
-//                event.preventDefault();
-//            }
-//        });
-//    };
-//});

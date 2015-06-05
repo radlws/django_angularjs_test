@@ -2,14 +2,6 @@
 
 {% block content %}
 
-{#Write some text in textbox:#}
-{#<input type="text" ng-model="sometext">#}
-{##}
-{#<h1 ng-show="sometext">Hello [[ sometext ]]</h1>#}
-{##}
-{#<h4>Uppercase: [[ sometext|uppercase ]]</h4>#}
-{#<h4>Lowercase: [[ sometext|lowercase ]]</h4>#}
-
 
 <div class="container stylish-well-1" ng-controller="RatingsController">
     <div class="row">
@@ -43,37 +35,34 @@
             </div>
         </div>
         <div class="row">
-{#            <ul>#}
-{#                <li ng-repeat="rating in ratings"> [[ rating ]] </li>#}
-{#            </ul>#}
-            <div ng-repeat="rating in ratings track by $index" class="col-md-3 col-sm-4 col-xs-6 rating" id="[[$index]]" ng-click="delete([[$index]])">
-                <div class="well">
-                    {# ng-show if name #}
-                    <strong>[[rating.name]]:</strong><span class="rating-value"> [[rating.value]]</span>
 
+            <div ng-repeat="rating in ratings track by $index" class="col-md-3 col-sm-4 col-xs-6 rating" id="[[$index]]" ng-click="remove([[$index]])">
+                <div class="well">
+                    <strong>[[rating.name]]:</strong><span class="rating-value"> [[rating.value]]</span>
                 </div>
             </div>
-{#            {{ else }}#}
-{#            <div class="col-md-12">#}
-{#                <div class="well">#}
-{#                    Nothing to show.#}
-{#                </div>#}
-{#            </div>#}
+
 
         </div>
 
         <div class="row row-input-buttons">
 
                 <div class="col-md-6">
-{#                    <div class="alert alert-success" role="alert">#}
-{#                        Average: <span id="day-average" data-val="{{averages.[0]}}">{{averages.[0]}}</span>,#}
-{#                        Count: <span id="day-count" data-val="{{averages.[1]}}">{{averages.[1]}}</span>,#}
-{#                        Median: <span id="day-median" data-val="{{averages.[2]}}">{{averages.[2]}}</span>#}
-{#                    </div>#}
+
+                    <div ng-if="status_msg.status=='success'" class="alert alert-success" role="alert">
+                        Count: <span id="day-count" data-val="[[count]]">[[count]]</span>,
+                        Median: <span id="day-median" data-val="[[mid]]">[[mid]]</span>,
+                        Average: <span id="day-median" data-val="[[avg]]">[[avg]]</span>
+                    </div>
+
+                     <div ng-if="status_msg.status=='fail'" class="alert" ng-class="(status_msg.status!='fail') ? 'alert-success' : 'alert-danger'">
+                        [[status_msg.message]]
+                     </div>
+
                 </div>
                 <div class="col-md-6 text-right">
                     <button class="btn btn-danger delete-all btn-lg" ng-click="clear()"><span class="glyphicon glyphicon-remove"></span> Clear</button>
-                    <button class="btn btn-primary save btn-lg"><span class="glyphicon glyphicon-save"></span> Save</button>
+                    <button class="btn btn-primary save btn-lg" ng-click="save()"><span class="glyphicon glyphicon-save"></span> Save</button>
                 </div>
 
             <div class="col-md-12">
