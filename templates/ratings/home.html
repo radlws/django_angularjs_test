@@ -4,6 +4,7 @@
 
 
 <div class="container stylish-well-1" ng-controller="RatingsController">
+
     <div class="row">
         <div class="col-md-6">
             <div class="stylish-header-div-1">Add Ratings for {% now "jS F Y" %}</div>
@@ -34,40 +35,36 @@
                 </div>
             </div>
         </div>
-        <div class="row">
 
+        <div class="row">
             <div ng-repeat="rating in ratings track by $index" class="col-md-3 col-sm-4 col-xs-6 rating" id="[[$index]]" ng-click="remove([[$index]])">
                 <div class="well">
                     <strong>[[rating.name]]:</strong><span class="rating-value"> [[rating.value]]</span>
                 </div>
             </div>
-
-
         </div>
 
         <div class="row row-input-buttons">
-
-                <div class="col-md-6">
-
-                    <div ng-if="status_msg.status=='success'" class="alert alert-success" role="alert">
-                        Count: <span id="day-count" data-val="[[count]]">[[count]]</span>,
-                        Median: <span id="day-median" data-val="[[mid]]">[[mid]]</span>,
-                        Average: <span id="day-median" data-val="[[avg]]">[[avg]]</span>
-                    </div>
-
-                     <div ng-if="status_msg.status=='fail'" class="alert" ng-class="(status_msg.status!='fail') ? 'alert-success' : 'alert-danger'">
-                        [[status_msg.message]]
-                     </div>
-
+            <div class="col-md-6">
+                <div ng-if="status_msg.status=='success'" class="alert alert-success" role="alert">
+                    Count: <span id="day-count" data-val="[[count]]">[[count]]</span>,
+                    Median: <span id="day-median" data-val="[[mid]]">[[mid]]</span>,
+                    Average: <span id="day-median" data-val="[[avg]]">[[avg]]</span>
                 </div>
-                <div class="col-md-6 text-right">
-                    <button class="btn btn-danger delete-all btn-lg" ng-click="clear()"><span class="glyphicon glyphicon-remove"></span> Clear</button>
-                    <button class="btn btn-primary save btn-lg" ng-click="save()"><span class="glyphicon glyphicon-save"></span> Save</button>
-                </div>
+                 <div ng-if="status_msg.status=='fail'" class="alert" ng-class="(status_msg.status!='fail') ? 'alert-success' : 'alert-danger'">
+                    [[status_msg.message]]
+                 </div>
+            </div>
+
+            <div class="col-md-6 text-right">
+                <button class="btn btn-danger delete-all btn-lg" ng-click="clear()"><span class="glyphicon glyphicon-remove"></span> Clear</button>
+                <button class="btn btn-primary save btn-lg" ng-click="save()"><span class="glyphicon glyphicon-save"></span> Save</button>
+            </div>
 
             <div class="col-md-12">
                 <div class="ratings-status"></div>
             </div>
+
         </div>
     </div>
 
